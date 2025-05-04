@@ -10,7 +10,7 @@ function ManageBooksPage() {
   const fetchBooks = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3000/api/books', {
+      const response = await fetch('http://localhost:3000/books', {
         headers: { Authorization: `Bearer ${token}` },
       })
       const data = await response.json()
@@ -30,8 +30,8 @@ function ManageBooksPage() {
     try {
       const token = localStorage.getItem('token')
       const url = editingBook
-        ? `http://localhost:3000/api/books/${editingBook.id}`
-        : 'http://localhost:3000/api/books'
+        ? `http://localhost:3000/books/${editingBook.id}`
+        : 'http://localhost:3000/books'
       const method = editingBook ? 'PUT' : 'POST'
 
       const response = await fetch(url, {
@@ -57,7 +57,7 @@ function ManageBooksPage() {
     if (!window.confirm('Yakin mau menghapus buku ini?')) return
     try {
       const token = localStorage.getItem('token')
-      await fetch(`http://localhost:3000/api/books/${id}`, {
+      await fetch(`http://localhost:3000/books/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })

@@ -10,7 +10,7 @@ function ManageUsersPage() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3000/api/users', {
+      const response = await fetch('http://localhost:3000/users', {
         headers: { Authorization: `Bearer ${token}` },
       })
       const data = await response.json()
@@ -30,8 +30,8 @@ function ManageUsersPage() {
     try {
       const token = localStorage.getItem('token')
       const url = editingUser
-        ? `http://localhost:3000/api/users/${editingUser.id}`
-        : 'http://localhost:3000/api/users'
+        ? `http://localhost:3000/users/${editingUser.id}`
+        : 'http://localhost:3000/users'
       const method = editingUser ? 'PUT' : 'POST'
 
       const response = await fetch(url, {
@@ -57,7 +57,7 @@ function ManageUsersPage() {
     if (!window.confirm('Yakin mau menghapus user ini?')) return
     try {
       const token = localStorage.getItem('token')
-      await fetch(`http://localhost:3000/api/users/${id}`, {
+      await fetch(`http://localhost:3000/users/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })

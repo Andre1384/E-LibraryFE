@@ -4,10 +4,14 @@ import { useNavigate, Link } from 'react-router-dom'
 function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
+    setError('') // Reset error state sebelum login
 
     try {
       const response = await fetch('http://localhost:3000/auth/login', {
@@ -23,23 +27,25 @@ function LoginPage() {
       if (response.ok) {
         localStorage.setItem('token', data.token)
 
-        // Setelah login, cek role
+        // Decode JWT token
         const [, payload] = data.token.split('.')
         const decodedPayload = JSON.parse(atob(payload))
 
         console.log('Isi token:', decodedPayload)
 
         if (decodedPayload.role === 'admin') {
-          navigate('/admin/dashboard')
+          navigate('/admin/dashboard') // Arahkan ke dashboard admin
         } else {
-          navigate('/dashboard')
+          navigate('/dashboard') // Arahkan ke dashboard user biasa
         }
       } else {
-        alert(data.error || 'Login failed')
+        setError(data.error || 'Login failed') // Menampilkan error dari response
       }
     } catch (err) {
       console.error(err)
-      alert('Login error')
+      setError('Login error, please try again later.')
+    } finally {
+      setLoading(false) // Menghentikan loading setelah proses selesai
     }
   }
 
@@ -47,6 +53,9 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>} {/* Menampilkan error */}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block mb-1 font-medium">Username</label>
@@ -71,8 +80,9 @@ function LoginPage() {
           <button
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded font-semibold"
+            disabled={loading} // Disable button saat loading
           >
-            Login
+            {loading ? 'Loading...' : 'Login'}
           </button>
         </form>
 
