@@ -15,8 +15,8 @@ import UserTable from './components/UserTable'
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/home" element={<HomePage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/dashboard" element={<UserDashboardPage />} />
       <Route path="/admin/dashboard" element={<AdminDashboardPage />} />

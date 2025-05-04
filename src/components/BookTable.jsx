@@ -1,4 +1,3 @@
-// src/components/BookTable.jsx
 function BookTable({ books, onEdit, onDelete }) {
     return (
       <div className="overflow-x-auto">
@@ -8,7 +7,7 @@ function BookTable({ books, onEdit, onDelete }) {
               <th className="py-2 px-4">ID</th>
               <th className="py-2 px-4">Judul</th>
               <th className="py-2 px-4">Penulis</th>
-              <th className="py-2 px-4">Tahun</th>
+              <th className="py-2 px-4">Deskripsi</th>
               <th className="py-2 px-4">Aksi</th>
             </tr>
           </thead>
@@ -18,7 +17,7 @@ function BookTable({ books, onEdit, onDelete }) {
                 <td className="py-2 px-4 text-center">{book.id}</td>
                 <td className="py-2 px-4">{book.title}</td>
                 <td className="py-2 px-4">{book.author}</td>
-                <td className="py-2 px-4 text-center">{book.year}</td>
+                <td className="py-2 px-4">{book.description}</td>
                 <td className="py-2 px-4 text-center space-x-2">
                   <button
                     onClick={() => onEdit(book)}

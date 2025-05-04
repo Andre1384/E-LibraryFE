@@ -1,25 +1,24 @@
-// src/components/BookForm.jsx
 import { useState, useEffect } from 'react'
 
 function BookForm({ onSubmit, initialData, onCancel }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
-  const [year, setYear] = useState('')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
     if (initialData) {
       setTitle(initialData.title)
       setAuthor(initialData.author)
-      setYear(initialData.year)
+      setDescription(initialData.description)
     }
   }, [initialData])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSubmit({ title, author, year })
+    onSubmit({ title, author, description })
     setTitle('')
     setAuthor('')
-    setYear('')
+    setDescription('')
   }
 
   return (
@@ -45,14 +44,14 @@ function BookForm({ onSubmit, initialData, onCancel }) {
         />
       </div>
       <div>
-        <label className="block mb-1 font-medium">Tahun</label>
-        <input
-          type="number"
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
+        <label className="block mb-1 font-medium">Deskripsi</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           className="w-full border border-gray-300 p-2 rounded"
+          rows="3"
           required
-        />
+        ></textarea>
       </div>
       <div className="flex justify-between">
         <button

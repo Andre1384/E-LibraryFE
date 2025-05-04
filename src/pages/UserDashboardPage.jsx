@@ -8,7 +8,7 @@ function UserDashboardPage() {
     const fetchBooks = async () => {
       try {
         const token = localStorage.getItem('token')
-        const response = await fetch('http://localhost:3000/api/books', {
+        const response = await fetch('http://localhost:3000/books', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -18,21 +18,16 @@ function UserDashboardPage() {
           throw new Error('Gagal mengambil data buku')
         }
 
-        const data = await response.json()
+        const result = await response.json()
 
-        // Setelah dapat buku, cek status tiap buku
-        const booksWithStatus = await Promise.all(
-          data.map(async (book) => {
-            const statusRes = await fetch(`http://localhost:3000/api/borrows/book/${book.id}/status`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            })
+        // Karena BE ngirim: { books: [...], currentPage, totalPages, totalBooks }
+        const booksList = result.books
 
-            const statusData = await statusRes.json()
-            return { ...book, status: statusData.status } // tambah field "status"
-          })
-        )
+        // Cek stock, jika stock > 0 maka available, else borrowed
+        const booksWithStatus = booksList.map(book => ({
+          ...book,
+          status: book.stock > 0 ? 'available' : 'borrowed',
+        }))
 
         setBooks(booksWithStatus)
       } catch (error) {
@@ -48,7 +43,7 @@ function UserDashboardPage() {
   const handleBorrow = async (bookId) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3000/api/borrows', {
+      const response = await fetch('http://localhost:3000/borrows', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +59,7 @@ function UserDashboardPage() {
       }
 
       alert('Berhasil meminjam buku!')
-      window.location.reload() // reload supaya status update
+      window.location.reload()
     } catch (error) {
       console.error('Error:', error)
       alert(error.message)

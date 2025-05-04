@@ -1,4 +1,3 @@
-// src/components/UserForm.jsx
 import { useState, useEffect } from 'react'
 
 function UserForm({ onSubmit, initialData, onCancel }) {

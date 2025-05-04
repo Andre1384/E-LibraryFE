@@ -1,4 +1,3 @@
-// src/components/UserTable.jsx
 function UserTable({ users, onEdit, onDelete }) {
     return (
       <div className="overflow-x-auto">
@@ -16,7 +15,7 @@ function UserTable({ users, onEdit, onDelete }) {
               <tr key={user.id} className="border-t">
                 <td className="py-2 px-4 text-center">{user.id}</td>
                 <td className="py-2 px-4">{user.username}</td>
-                <td className="py-2 px-4 text-center">{user.role}</td>
+                <td className="py-2 px-4 text-center capitalize">{user.role}</td>
                 <td className="py-2 px-4 text-center space-x-2">
                   <button
                     onClick={() => onEdit(user)}
